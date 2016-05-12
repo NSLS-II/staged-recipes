@@ -1,0 +1,45 @@
+{% set version = "0.3.10" %}
+
+package:
+  name: atom
+  version: "{{ version }}"
+
+source:
+  git_tag: "{{ version }}"
+  git_url: https://github.com/nucleic/atom
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - distribute
+
+  run:
+    - python
+
+test:
+  # Python imports
+  requires:
+    - nose
+  commands:
+    # - nosetests -sv atom
+    - |
+      DIR=dirname python -c "import atom; print(atom.__file__)"`;
+      cp ../work/atom $DIR;
+      nosetests -sv $DIR
+    # - python -c "import atom; print(atom.__file__)"
+    # - ls
+    # - pwd
+    # - nosetests ../work/atom
+  imports:
+    - atom
+    - atom.datastructures.sortedmap
+    - atom.catom
+
+about:
+  home: https://github.com/nucleic/atom
+  license: Modified BSD
+  license_file: COPYING.txt
+  summary: 'Memory efficient Python objects'
